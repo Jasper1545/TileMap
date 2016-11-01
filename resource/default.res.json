@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,road_jpg,player01_idle_right_png,player01_walk_left_01_png,player01_walk_left_02_png,player01_walk_left_03_png,player01_walk_right_01_png,player01_walk_right_02_png,player01_walk_right_03_png,player01_idle_left_png,idle_png,walk01_png,walk02_png,walk03_png",
+			"keys": "bg_jpg,egret_icon_png,description_json,road_jpg,player01_idle_right_png,player01_walk_left_01_png,player01_walk_left_02_png,player01_walk_left_03_png,player01_walk_right_01_png,player01_walk_right_02_png,player01_walk_right_03_png,player01_idle_left_png,idle_png,walk01_png,walk02_png,walk03_png,floor01_png,floor02_png,floor03_png,floor04_png,shelf01_png,shelf02_png,shelf03_png,shelf04_png,table01_png,table02_png,table03_png,table04_png",
 			"name": "preload"
 		}
 	],
@@ -85,6 +85,66 @@
 			"name": "walk03_png",
 			"type": "image",
 			"url": "walk03.png"
+		},
+		{
+			"name": "floor01_png",
+			"type": "image",
+			"url": "assets/floor01.png"
+		},
+		{
+			"name": "floor02_png",
+			"type": "image",
+			"url": "assets/floor02.png"
+		},
+		{
+			"name": "floor03_png",
+			"type": "image",
+			"url": "assets/floor03.png"
+		},
+		{
+			"name": "floor04_png",
+			"type": "image",
+			"url": "assets/floor04.png"
+		},
+		{
+			"name": "shelf01_png",
+			"type": "image",
+			"url": "assets/shelf01.png"
+		},
+		{
+			"name": "shelf02_png",
+			"type": "image",
+			"url": "assets/shelf02.png"
+		},
+		{
+			"name": "shelf03_png",
+			"type": "image",
+			"url": "assets/shelf03.png"
+		},
+		{
+			"name": "shelf04_png",
+			"type": "image",
+			"url": "assets/shelf04.png"
+		},
+		{
+			"name": "table01_png",
+			"type": "image",
+			"url": "assets/table01.png"
+		},
+		{
+			"name": "table02_png",
+			"type": "image",
+			"url": "assets/table02.png"
+		},
+		{
+			"name": "table03_png",
+			"type": "image",
+			"url": "assets/table03.png"
+		},
+		{
+			"name": "table04_png",
+			"type": "image",
+			"url": "assets/table04.png"
 		}
 	]
 }

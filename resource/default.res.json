@@ -1,0 +1,90 @@
+{
+	"groups": [
+		{
+			"keys": "bg_jpg,egret_icon_png,description_json,road_jpg,player01_idle_right_png,player01_walk_left_01_png,player01_walk_left_02_png,player01_walk_left_03_png,player01_walk_right_01_png,player01_walk_right_02_png,player01_walk_right_03_png,player01_idle_left_png,idle_png,walk01_png,walk02_png,walk03_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "bg_jpg",
+			"type": "image",
+			"url": "assets/bg.jpg"
+		},
+		{
+			"name": "egret_icon_png",
+			"type": "image",
+			"url": "assets/egret_icon.png"
+		},
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "road_jpg",
+			"type": "image",
+			"url": "assets/road.jpg"
+		},
+		{
+			"name": "player01_idle_right_png",
+			"type": "image",
+			"url": "assets/player01_idle_right.png"
+		},
+		{
+			"name": "player01_walk_left_01_png",
+			"type": "image",
+			"url": "assets/player01_walk_left_01.png"
+		},
+		{
+			"name": "player01_walk_left_02_png",
+			"type": "image",
+			"url": "assets/player01_walk_left_02.png"
+		},
+		{
+			"name": "player01_walk_left_03_png",
+			"type": "image",
+			"url": "assets/player01_walk_left_03.png"
+		},
+		{
+			"name": "player01_walk_right_01_png",
+			"type": "image",
+			"url": "assets/player01_walk_right_01.png"
+		},
+		{
+			"name": "player01_walk_right_02_png",
+			"type": "image",
+			"url": "assets/player01_walk_right_02.png"
+		},
+		{
+			"name": "player01_walk_right_03_png",
+			"type": "image",
+			"url": "assets/player01_walk_right_03.png"
+		},
+		{
+			"name": "player01_idle_left_png",
+			"type": "image",
+			"url": "assets/player01_idle_left.png"
+		},
+		{
+			"name": "idle_png",
+			"type": "image",
+			"url": "idle.png"
+		},
+		{
+			"name": "walk01_png",
+			"type": "image",
+			"url": "walk01.png"
+		},
+		{
+			"name": "walk02_png",
+			"type": "image",
+			"url": "walk02.png"
+		},
+		{
+			"name": "walk03_png",
+			"type": "image",
+			"url": "walk03.png"
+		}
+	]
+}

@@ -16,11 +16,17 @@ var idlerightconfig = [
 
 class PlayerIdleState implements State {
 
-    private player:Player;
-    private idleAnime:egret.Bitmap;
-    private idleTimer:egret.Timer;
-    private animeInterval:number = 200;
-    private idleAnimeIndex:number;
+    public player:Player;
+    public idleAnime:egret.Bitmap;
+    public idleTimer:egret.Timer;
+    public animeInterval:number = 200;
+    public idleAnimeIndex:number;
+
+    public idleUpState:IdleUpState;
+    public idleDownState:IdleDownState;
+    public idleLeftState:IdleLeftState;
+    public idleRightState:IdleRightState;
+    public idleStateMachine:StateMachine;
 
 
     constructor(player:Player) {
@@ -28,6 +34,10 @@ class PlayerIdleState implements State {
         this.idleTimer = new egret.Timer(this.animeInterval,0);
         this.idleAnime = new egret.Bitmap();
         
+        this.idleUpState = new IdleUpState(this);
+        this.idleDownState = new IdleDownState(this);
+        this.idleLeftState = new IdleDownState(this);
+        this.idleRightState = new IdleRightState(this);
     }
 
     public onEnter() {   
@@ -42,22 +52,23 @@ class PlayerIdleState implements State {
 
     }
 
+
     private startIdleAnime() {
         switch(this.player.playerdirection){
             case directionconfig.upState:
-                this.startUpAnime();
+                this.idleUpState.onEnter();
                 break;
             
             case directionconfig.downState:
-                this.startDownAnime();
+                this.idleDownState.onEnter();
                 break;
 
             case directionconfig.leftState:
-                this.startLeftAnime();
+                this.idleLeftState.onEnter();
                 break;
 
             case directionconfig.rightState:
-                this.startRightAnime();
+                this.idleRightState.onEnter();
                 break;
 
         }
@@ -67,19 +78,19 @@ class PlayerIdleState implements State {
     private stopIdleAnime() {
         switch(this.player.playerdirection){
             case directionconfig.upState:
-                this.stopUpAnime();
+                this.idleUpState.onExit();
                 break;
 
             case directionconfig.downState:
-                this.stopDownAnime();
+                this.idleDownState.onExit();
                 break;
             
             case directionconfig.leftState:
-                this.stopLeftAnime();
+                this.idleLeftState.onExit();
                 break;
 
             case directionconfig.rightState:
-                this.stopRightAnime();
+                this.idleRightState.onExit();
                 break;
 
         }
@@ -88,152 +99,29 @@ class PlayerIdleState implements State {
 
     private timerFunc() {
         switch(this.player.playerdirection){
-            case directionconfig.upState: 
-                this.startUpAnime();
+            case directionconfig.upState:
+                this.idleUpState.onExit();
+                this.idleUpState.onEnter();
                 break;
 
             case directionconfig.downState:
-                this.startDownAnime();
+                this.idleDownState.onExit();
+                this.idleDownState.onEnter();
                 break;
 
             case directionconfig.leftState:
-                this.startLeftAnime();
+                this.idleLeftState.onExit();
+                this.idleLeftState.onEnter();
                 break;
 
             case directionconfig.rightState:
-                this.startRightAnime();
+                this.idleRightState.onExit();
+                this.idleRightState.onEnter();
                 break;
         }        
     
     }
 
-//动画部分
-    //向上
-    private startUpAnime() {
-        this.idleAnimeIndex = 0;   
-        this.idleAnime.texture = RES.getRes(idleupconfig[0].image);
-        this.player.playerStage.addChild(this.idleAnime);
-
-        this.idleTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.idleTimer.start();
-
-    }
-
-    private stopUpAnime() {
-        this.player.playerStage.removeChild(this.idleAnime);
-
-        this.idleTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.idleTimer.stop();
-
-    }
-
-    private upTimerFunc() {
-        if(this.idleAnimeIndex < (idleupconfig.length -1)) {
-            this.idleAnimeIndex++;
-            this.idleAnime.texture = RES.getRes(idleupconfig[this.idleAnimeIndex].image);
-            console.log("up timer: "+ this.idleAnimeIndex);
-        }else {
-            this.idleAnimeIndex = 0;
-                    
-        } 
-
-    }
-
-
-    //向下
-    private startDownAnime() {
-        this.idleAnimeIndex = 0;   
-        this.idleAnime.texture = RES.getRes(idledownconfig[0].image);
-        this.player.playerStage.addChild(this.idleAnime);
-
-        this.idleTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.idleTimer.start();
-
-    }
-
-    private stopDownAnime() {
-        this.player.playerStage.removeChild(this.idleAnime);
-
-        this.idleTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.idleTimer.stop();
-
-    }
-
-    private downTimerFunc() {
-        if(this.idleAnimeIndex < (idledownconfig.length -1)) {
-            this.idleAnimeIndex++;
-            this.idleAnime.texture = RES.getRes(idledownconfig[this.idleAnimeIndex].image);
-            console.log("down timer: "+ this.idleAnimeIndex);
-        }else {
-            this.idleAnimeIndex = 0;
-                    
-        } 
-
-    }
-
-    //向左
-    private startLeftAnime() {
-        this.idleAnimeIndex = 0;   
-        this.idleAnime.texture = RES.getRes(idleleftconfig[0].image);
-        this.player.playerStage.addChild(this.idleAnime);
-
-        this.idleTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.idleTimer.start();
-
-    }
-
-    private stopLeftAnime() {
-        this.player.playerStage.removeChild(this.idleAnime);
-
-        this.idleTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.idleTimer.stop();
-
-    }
-
-    private leftTimerFunc() {
-        if(this.idleAnimeIndex < (idleleftconfig.length -1)) {
-            this.idleAnimeIndex++;
-            this.idleAnime.texture = RES.getRes(idleleftconfig[this.idleAnimeIndex].image);
-            console.log("left timer: "+ this.idleAnimeIndex);
-        }else {
-            this.idleAnimeIndex = 0;
-                    
-        } 
-
-    }
-
-    //向右
-    private startRightAnime() {
-        this.idleAnimeIndex = 0;   
-        this.idleAnime.texture = RES.getRes(idlerightconfig[0].image);
-        this.player.playerStage.addChild(this.idleAnime);
-
-        this.idleTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.idleTimer.start();
-
-    }
-
-    private stopRightAnime() {
-        this.player.playerStage.removeChild(this.idleAnime);
-
-        this.idleTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.idleTimer.stop();
-
-    }
-
-    private rightTimerFunc() {
-        if(this.idleAnimeIndex < (idlerightconfig.length -1)) {
-            this.idleAnimeIndex++;
-            this.idleAnime.texture = RES.getRes(idlerightconfig[this.idleAnimeIndex].image);
-            console.log("right timer: "+ this.idleAnimeIndex);
-        }else {
-            this.idleAnimeIndex = 0;
-                    
-        } 
-
-    }    
-
-//动画部分结束
 
 
 }
@@ -266,20 +154,30 @@ var moverightconfig = [
 
 class PlayerMoveState implements State {
 
-    private moveAnime:egret.Bitmap;
-    private moveTimer:egret.Timer;
-    private animeInterval:number = 200;
-    private moveAnimeIndex:number;
+    public moveAnime:egret.Bitmap;
+    public moveTimer:egret.Timer;
+    public animeInterval:number = 200;
+    public moveAnimeIndex:number;
 
-    private astar:AStar;
-    private player:Player;
-    private pathIndex:number;
-    private speed:number = 1;
+    public moveUpState:MoveUpState;
+    public moveDownState:MoveDownState;
+    public moveLeftState:MoveLeftState;
+    public moveRightState:MoveRightState;
+
+    public astar:AStar;
+    public player:Player;
+    public pathIndex:number;
+    public speed:number = 1;
     
     constructor(player:Player) {
         this.player = player;
         this.moveTimer = new egret.Timer(this.animeInterval,0);
         this.moveAnime = new egret.Bitmap();
+
+        this.moveUpState = new MoveUpState(this);
+        this.moveDownState = new MoveDownState(this);
+        this.moveLeftState = new MoveLeftState(this);
+        this.moveRightState = new MoveRightState(this);
 
     }
 
@@ -297,155 +195,25 @@ class PlayerMoveState implements State {
 
     }
     
-
-//动画部分
-    //向上
-    private startUpAnime() {
-        this.moveAnimeIndex = 0;   
-        this.moveAnime.texture = RES.getRes(moveupconfig[0].image);
-        this.player.playerStage.addChild(this.moveAnime);
-
-        this.moveTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.moveTimer.start();
-
-    }
-
-    private stopUpAnime() {
-        this.player.playerStage.removeChild(this.moveAnime);
-
-        this.moveTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.moveTimer.stop();
-
-    }
-
-    private upTimerFunc() {
-        if(this.moveAnimeIndex < (moveupconfig.length -1)) {
-            this.moveAnimeIndex++;
-            this.moveAnime.texture = RES.getRes(moveupconfig[this.moveAnimeIndex].image);
-            console.log("up timer: "+ this.moveAnimeIndex);
-        }else {
-            this.moveAnimeIndex = 0;
-                    
-        } 
-
-    }
-
-
-    //向下
-    private startDownAnime() {
-        this.moveAnimeIndex = 0;   
-        this.moveAnime.texture = RES.getRes(movedownconfig[0].image);
-        this.player.playerStage.addChild(this.moveAnime);
-
-        this.moveTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.moveTimer.start();
-
-    }
-
-    private stopDownAnime() {
-        this.player.playerStage.removeChild(this.moveAnime);
-
-        this.moveTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.moveTimer.stop();
-
-    }
-
-    private downTimerFunc() {
-        if(this.moveAnimeIndex < (movedownconfig.length -1)) {
-            this.moveAnimeIndex++;
-            this.moveAnime.texture = RES.getRes(movedownconfig[this.moveAnimeIndex].image);
-            console.log("down timer: "+ this.moveAnimeIndex);
-        }else {
-            this.moveAnimeIndex = 0;
-                    
-        } 
-
-    }
-
-    //向左
-    private startLeftAnime() {
-        this.moveAnimeIndex = 0;   
-        this.moveAnime.texture = RES.getRes(moveleftconfig[0].image);
-        this.player.playerStage.addChild(this.moveAnime);
-
-        this.moveTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.moveTimer.start();
-
-    }
-
-    private stopLeftAnime() {
-        this.player.playerStage.removeChild(this.moveAnime);
-
-        this.moveTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.moveTimer.stop();
-
-    }
-
-    private leftTimerFunc() {
-        if(this.moveAnimeIndex < (moveleftconfig.length -1)) {
-            this.moveAnimeIndex++;
-            this.moveAnime.texture = RES.getRes(moveleftconfig[this.moveAnimeIndex].image);
-            console.log("left timer: "+ this.moveAnimeIndex);
-        }else {
-            this.moveAnimeIndex = 0;
-                    
-        } 
-
-    }
-
-    //向右
-    private startRightAnime() {
-        this.moveAnimeIndex = 0;   
-        this.moveAnime.texture = RES.getRes(moverightconfig[0].image);
-        this.player.playerStage.addChild(this.moveAnime);
-
-        this.moveTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.moveTimer.start();
-
-    }
-
-    private stopRightAnime() {
-        this.player.playerStage.removeChild(this.moveAnime);
-
-        this.moveTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
-        this.moveTimer.stop();
-
-    }
-
-    private rightTimerFunc() {
-        if(this.moveAnimeIndex < (moverightconfig.length -1)) {
-            this.moveAnimeIndex++;
-            this.moveAnime.texture = RES.getRes(moverightconfig[this.moveAnimeIndex].image);
-            console.log("right timer: "+ this.moveAnimeIndex);
-        }else {
-            this.moveAnimeIndex = 0;
-                    
-        } 
-
-    }    
-
-//动画部分结束
-
-
     private startMoveAnime() {
         switch(this.player.playerdirection) {
             case directionconfig.upState:
-                this.startUpAnime();
+                this.moveUpState.onEnter();
                 console.log("start Up");
                 break;
 
             case directionconfig.downState:
-                this.startDownAnime();
+                this.moveDownState.onEnter();
                 console.log("start down");
                 break;
             
             case directionconfig.leftState:
-                this.startLeftAnime();
+                this.moveLeftState.onEnter();
                 console.log("start Left");
                 break;
             
             case directionconfig.rightState:
-                this.startRightAnime();
+                this.moveRightState.onEnter();
                 console.log("start Right");
                 break;
             
@@ -456,43 +224,41 @@ class PlayerMoveState implements State {
     private stopMoveAnime() {
         switch(this.player.playerdirection) {
             case directionconfig.upState:
-                this.stopUpAnime();
+                this.moveUpState.onExit();
                 break;
 
             case directionconfig.downState:
-                this.stopDownAnime();
+                this.moveDownState.onExit();
                 break;
             
             case directionconfig.leftState:
-                this.stopLeftAnime();
+                this.moveLeftState.onExit();
                 break;
             
             case directionconfig.rightState:
-                this.stopRightAnime();
+                this.moveRightState.onExit();
                 break;
 
         }
 
     }
 
-
-
-    timerFunc() { 
+    private timerFunc() { 
         switch(this.player.playerdirection){
             case directionconfig.upState:
-                this.upTimerFunc();
+                this.moveUpState.timerFunc();
                 break;
 
             case directionconfig.downState:
-                this.downTimerFunc();
+                this.moveDownState.timerFunc();
                 break;
 
             case directionconfig.leftState:
-                this.leftTimerFunc();
+                this.moveLeftState.timerFunc();
                 break;
 
             case directionconfig.rightState:
-                this.rightTimerFunc();
+                this.moveRightState.timerFunc();
                 break;
         }       
     

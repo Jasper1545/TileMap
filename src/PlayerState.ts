@@ -4,11 +4,11 @@ var idleconfig = [
 
 class PlayerIdleState implements State {
 
-    player:Player;
-    idleAnime:egret.Bitmap;
-    idleTimer:egret.Timer;
-    animeInterval:number = 200;
-    idleAnimeIndex:number;
+    private player:Player;
+    private idleAnime:egret.Bitmap;
+    private idleTimer:egret.Timer;
+    private animeInterval:number = 200;
+    private idleAnimeIndex:number;
 
 
     constructor(player:Player) {
@@ -18,29 +18,37 @@ class PlayerIdleState implements State {
         
     }
 
-    onEnter() {
-        this.idleAnimeIndex = 0;   
-        this.idleAnime.texture = RES.getRes(idleconfig[0].image);
-        this.player.playerStage.addChild(this.idleAnime);
-
-        this.idleTimer.addEventListener(egret.TimerEvent.TIMER,this.timerComFunc,this);
-        this.idleTimer.start();
-
+    public onEnter() {   
+        this.startIdleAnime();
         console.log("Enter Idle State");
 
     }
 
-    onExit() {
-        this.player.playerStage.removeChild(this.idleAnime);
-
-        this.idleTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerComFunc,this);
-        this.idleTimer.stop();
-
+    public onExit() {
+        this.stopAnime();
         console.log("Exit Idle State");
 
     }
 
-    timerComFunc() { 
+    private startIdleAnime() {
+        this.idleAnimeIndex = 0;   
+        this.idleAnime.texture = RES.getRes(idleconfig[0].image);
+        this.player.playerStage.addChild(this.idleAnime);
+
+        this.idleTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
+        this.idleTimer.start();
+
+    }
+
+    private stopAnime() {
+         this.player.playerStage.removeChild(this.idleAnime);
+
+        this.idleTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
+        this.idleTimer.stop();
+
+    }
+
+    private timerFunc() { 
         if(this.idleAnimeIndex < (idleconfig.length -1)) {
             this.idleAnimeIndex++;
             this.idleAnime.texture = RES.getRes(idleconfig[this.idleAnimeIndex].image);
@@ -65,45 +73,55 @@ var moveconfig = [
 
 class PlayerMoveState implements State {
 
-    moveAnime:egret.Bitmap;
-    moveTimer:egret.Timer;
-    animeInterval:number = 200;
-    moveAnimeIndex:number;
+    private moveAnime:egret.Bitmap;
+    private moveTimer:egret.Timer;
+    private animeInterval:number = 200;
+    private moveAnimeIndex:number;
 
-    astar:AStar;
-    player:Player;
-    pathIndex:number;
-    speed:number = 1;
+    private astar:AStar;
+    private player:Player;
+    private pathIndex:number;
+    private speed:number = 1;
     
     constructor(player:Player) {
         this.player = player;
         this.moveTimer = new egret.Timer(this.animeInterval,0);
         this.moveAnime = new egret.Bitmap();
+
     }
 
     public onEnter() {
-        this.moveAnimeIndex = 0;   
-        this.moveAnime.texture = RES.getRes(moveconfig[0].image);
-        this.player.playerStage.addChild(this.moveAnime);
-
-        this.moveTimer.addEventListener(egret.TimerEvent.TIMER,this.timerComFunc,this);
-        this.moveTimer.start();
-
+        this.startMoveAnime();
+        this.move();
         console.log("Enter Move State");
 
     }
 
     public onExit() {
-        this.player.playerStage.removeChild(this.moveAnime);
-
-        this.moveTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerComFunc,this);
-        this.moveTimer.stop();
-
+        this.stopMoveAnime();
         console.log("Exit Move State");
 
     }
 
-    timerComFunc() { 
+    private startMoveAnime() {
+        this.moveAnimeIndex = 0;   
+        this.moveAnime.texture = RES.getRes(moveconfig[0].image);
+        this.player.playerStage.addChild(this.moveAnime);
+
+        this.moveTimer.addEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
+        this.moveTimer.start();
+
+    }
+
+    private stopMoveAnime() {
+        this.player.playerStage.removeChild(this.moveAnime);
+
+        this.moveTimer.removeEventListener(egret.TimerEvent.TIMER,this.timerFunc,this);
+        this.moveTimer.stop();
+
+    }
+
+    timerFunc() { 
         if(this.moveAnimeIndex < (moveconfig.length -1)) {
             this.moveAnimeIndex++;
             this.moveAnime.texture = RES.getRes(moveconfig[this.moveAnimeIndex].image);
@@ -114,7 +132,7 @@ class PlayerMoveState implements State {
     
     }
 
-    public startMove(touchX:number, touchY:number) {
+    public checkMove(touchX:number, touchY:number) {
         this.pathIndex = 0;
 
         var startx = Math.floor(this.player.playerStage.x/this.player.tileSize);
@@ -132,10 +150,10 @@ class PlayerMoveState implements State {
         this.astar._path = [];
         this.astar.findPath(this.player.grid);
 
-        if(startx != endx || starty != endy) {
+        if(startx != endx || starty != endy) { //满足条件 进入move状态
             if(this.astar._path.length != 0) {
                 this.player.playerStateMachine.changeState(this.player.playerMovestate);
-                this.move();
+                
             }
         }
     

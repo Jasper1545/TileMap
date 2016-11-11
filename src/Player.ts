@@ -61,7 +61,7 @@ class Player {
                 break;
 
             case 1:
-                this.playerMovestate.startMove(this.touchX,this.touchY);
+                this.playerMovestate.checkMove(this.touchX,this.touchY);
                 break;
 
         }

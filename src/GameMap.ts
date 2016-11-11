@@ -112,7 +112,7 @@ var mapconfig= [
 
 ]
 
-class GameMap extends egret.DisplayObjectContainer{
+class GameMap extends egret.DisplayObjectContainer {
 
 	public static tilesize = 64;
 
@@ -122,7 +122,7 @@ class GameMap extends egret.DisplayObjectContainer{
 
 	}
 
-	private init(){
+	private init() {
 
 		for(var i =0; i <mapconfig.length; i++){
 
@@ -138,14 +138,14 @@ class GameMap extends egret.DisplayObjectContainer{
 }
 
 
-class MapTile extends egret.DisplayObjectContainer{
+class MapTile extends egret.DisplayObjectContainer {
 
 	x :number;
 	y :number;
 	walkable :boolean;
 	image :string;
 
-	constructor(data){
+	constructor(data) {
 
 		super();
 		this.init(data);
@@ -154,7 +154,7 @@ class MapTile extends egret.DisplayObjectContainer{
 	}
 
 
-	private init(data){
+	private init(data) {
 
 		this.x = data.x * GameMap.tilesize;
 		this.y = data.y * GameMap.tilesize;

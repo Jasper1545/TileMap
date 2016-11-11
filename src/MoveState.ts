@@ -157,3 +157,4 @@ class MoveRightState implements State {
     }
 
 }
+

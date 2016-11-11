@@ -22,6 +22,7 @@ class PlayerIdleState implements State {
     public animeInterval:number = 200;
     public idleAnimeIndex:number;
 
+    public idleNullState:PlayerNullstate;
     public idleUpState:IdleUpState;
     public idleDownState:IdleDownState;
     public idleLeftState:IdleLeftState;
@@ -34,10 +35,13 @@ class PlayerIdleState implements State {
         this.idleTimer = new egret.Timer(this.animeInterval,0);
         this.idleAnime = new egret.Bitmap();
         
+        this.idleNullState = new PlayerNullstate();
         this.idleUpState = new IdleUpState(this);
         this.idleDownState = new IdleDownState(this);
         this.idleLeftState = new IdleDownState(this);
         this.idleRightState = new IdleRightState(this);
+        this.idleStateMachine = new StateMachine(this.idleDownState);
+
     }
 
     public onEnter() {   
@@ -56,19 +60,19 @@ class PlayerIdleState implements State {
     private startIdleAnime() {
         switch(this.player.playerdirection){
             case directionconfig.upState:
-                this.idleUpState.onEnter();
+                this.idleStateMachine.changeState(this.idleUpState);
                 break;
             
             case directionconfig.downState:
-                this.idleDownState.onEnter();
+                this.idleStateMachine.changeState(this.idleDownState);
                 break;
 
             case directionconfig.leftState:
-                this.idleLeftState.onEnter();
+                this.idleStateMachine.changeState(this.idleLeftState);
                 break;
 
             case directionconfig.rightState:
-                this.idleRightState.onEnter();
+                this.idleStateMachine.changeState(this.idleRightState);
                 break;
 
         }
@@ -78,19 +82,19 @@ class PlayerIdleState implements State {
     private stopIdleAnime() {
         switch(this.player.playerdirection){
             case directionconfig.upState:
-                this.idleUpState.onExit();
+                this.idleStateMachine.changeState(this.idleNullState);
                 break;
 
             case directionconfig.downState:
-                this.idleDownState.onExit();
+                this.idleStateMachine.changeState(this.idleNullState);
                 break;
             
             case directionconfig.leftState:
-                this.idleLeftState.onExit();
+                this.idleStateMachine.changeState(this.idleNullState);
                 break;
 
             case directionconfig.rightState:
-                this.idleRightState.onExit();
+                this.idleStateMachine.changeState(this.idleNullState);
                 break;
 
         }
@@ -100,23 +104,19 @@ class PlayerIdleState implements State {
     private timerFunc() {
         switch(this.player.playerdirection){
             case directionconfig.upState:
-                this.idleUpState.onExit();
-                this.idleUpState.onEnter();
+                this.idleStateMachine.changeState(this.idleUpState);
                 break;
 
             case directionconfig.downState:
-                this.idleDownState.onExit();
-                this.idleDownState.onEnter();
+                this.idleStateMachine.changeState(this.idleDownState);
                 break;
 
             case directionconfig.leftState:
-                this.idleLeftState.onExit();
-                this.idleLeftState.onEnter();
+                this.idleStateMachine.changeState(this.idleLeftState);
                 break;
 
             case directionconfig.rightState:
-                this.idleRightState.onExit();
-                this.idleRightState.onEnter();
+                this.idleStateMachine.changeState(this.idleRightState);
                 break;
         }        
     
@@ -159,10 +159,12 @@ class PlayerMoveState implements State {
     public animeInterval:number = 200;
     public moveAnimeIndex:number;
 
+    public moveNullState:PlayerNullstate;
     public moveUpState:MoveUpState;
     public moveDownState:MoveDownState;
     public moveLeftState:MoveLeftState;
     public moveRightState:MoveRightState;
+    public moveStateMachine:StateMachine;
 
     public astar:AStar;
     public player:Player;
@@ -174,10 +176,12 @@ class PlayerMoveState implements State {
         this.moveTimer = new egret.Timer(this.animeInterval,0);
         this.moveAnime = new egret.Bitmap();
 
+        this.moveNullState = new PlayerNullstate();
         this.moveUpState = new MoveUpState(this);
         this.moveDownState = new MoveDownState(this);
         this.moveLeftState = new MoveLeftState(this);
         this.moveRightState = new MoveRightState(this);
+        this.moveStateMachine = new StateMachine(this.moveNullState);
 
     }
 
@@ -198,22 +202,22 @@ class PlayerMoveState implements State {
     private startMoveAnime() {
         switch(this.player.playerdirection) {
             case directionconfig.upState:
-                this.moveUpState.onEnter();
+                this.moveStateMachine.changeState(this.moveUpState);
                 console.log("start Up");
                 break;
 
             case directionconfig.downState:
-                this.moveDownState.onEnter();
+                this.moveStateMachine.changeState(this.moveDownState);
                 console.log("start down");
                 break;
             
             case directionconfig.leftState:
-                this.moveLeftState.onEnter();
+                this.moveStateMachine.changeState(this.moveLeftState);
                 console.log("start Left");
                 break;
             
             case directionconfig.rightState:
-                this.moveRightState.onEnter();
+                this.moveStateMachine.changeState(this.moveRightState);
                 console.log("start Right");
                 break;
             
@@ -224,19 +228,19 @@ class PlayerMoveState implements State {
     private stopMoveAnime() {
         switch(this.player.playerdirection) {
             case directionconfig.upState:
-                this.moveUpState.onExit();
+                this.moveStateMachine.changeState(this.moveNullState);
                 break;
 
             case directionconfig.downState:
-                this.moveDownState.onExit();
+                this.moveStateMachine.changeState(this.moveNullState);
                 break;
             
             case directionconfig.leftState:
-                this.moveLeftState.onExit();
+                this.moveStateMachine.changeState(this.moveNullState);
                 break;
             
             case directionconfig.rightState:
-                this.moveRightState.onExit();
+                this.moveStateMachine.changeState(this.moveNullState);
                 break;
 
         }
@@ -284,9 +288,6 @@ class PlayerMoveState implements State {
 
         if(startx != endx || starty != endy) { //满足条件 进入move状态
             if(this.astar._path.length != 0) {
-                for(var i=0; i< this.astar._path.length; i++) {
-                    console.log("[" + i + "]" + " x: " + this.astar._path[i].x + " y: " + this.astar._path[i].y);
-                }
                 this.player.playerStateMachine.changeState(this.player.playerMovestate);
                 
             }
@@ -356,5 +357,20 @@ class PlayerMoveState implements State {
     }
 
     
+
+}
+
+
+class PlayerNullstate implements State {
+
+    onEnter(){
+        console.log("Enter Null State");
+
+    }
+
+    onExit(){
+        console.log("Exit Null State");
+
+    }
 
 }

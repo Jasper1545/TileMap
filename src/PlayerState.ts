@@ -99,6 +99,7 @@ class PlayerMoveState implements State {
 
     public onExit() {
         this.stopMoveAnime();
+        egret.Tween.removeTweens(this.player.playerStage);//停止移动
         console.log("Exit Move State");
 
     }
@@ -141,7 +142,7 @@ class PlayerMoveState implements State {
         var endx = Math.floor(touchX/this.player.tileSize);
         var endy = Math.floor(touchY/this.player.tileSize);
 
-        egret.Tween.removeTweens(this.player.playerStage);
+        //egret.Tween.removeTweens(this.player.playerStage);
 
         this.player.grid.setStartNode(startx,starty);
         this.player.grid.setEndNode(endx,endy);
@@ -187,7 +188,7 @@ class PlayerMoveState implements State {
         }else {
             this.pathIndex = 0;
             console.log("Move end");
-            this.player.stateSign = stateconfig.idleState;
+            this.player.stateSign = stateconfig.idleState; //移动结束 切换状态
             this.player.checkstate();
 
         }

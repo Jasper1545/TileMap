@@ -15,11 +15,18 @@ var stateconfig = {
 
 }
 
+var directionconfig = {
+    downState:0,
+    upState:1,
+    leftState:2,
+    rightState:3
+
+}
+
 
 class Player {
 
     //人物相关
-    self = this;
     playerStage:egret.DisplayObjectContainer;
     playerIdleState:PlayerIdleState;
     playerMovestate:PlayerMoveState;
@@ -32,14 +39,19 @@ class Player {
     grid:Grid;
     tileSize:number;
 
+    playerdirection:number;
+
     public constructor(grid:Grid,tileSize:number) {
         this.grid = grid;
         this.tileSize = tileSize;
+
         this.playerStage = new egret.DisplayObjectContainer();
+        
+        this.playerdirection = directionconfig.downState;
         this.playerIdleState = new PlayerIdleState(this);
         this.playerMovestate = new PlayerMoveState(this);
+        this.stateSign = stateconfig.idleState; 
         this.playerStateMachine = new StateMachine(this.playerIdleState);
-        this.stateSign = stateconfig.idleState;
 
     }
 

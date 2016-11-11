@@ -10,17 +10,22 @@ var stateconfig = {
     idleState: 0,
     moveState: 1
 };
+var directionconfig = {
+    downState: 0,
+    upState: 1,
+    leftState: 2,
+    rightState: 3
+};
 var Player = (function () {
     function Player(grid, tileSize) {
-        //人物相关
-        this.self = this;
         this.grid = grid;
         this.tileSize = tileSize;
         this.playerStage = new egret.DisplayObjectContainer();
+        this.playerdirection = directionconfig.downState;
         this.playerIdleState = new PlayerIdleState(this);
         this.playerMovestate = new PlayerMoveState(this);
-        this.playerStateMachine = new StateMachine(this.playerIdleState);
         this.stateSign = stateconfig.idleState;
+        this.playerStateMachine = new StateMachine(this.playerIdleState);
     }
     var d = __define,c=Player,p=c.prototype;
     p.onTouch = function (e) {
@@ -35,7 +40,7 @@ var Player = (function () {
                 this.playerStateMachine.changeState(this.playerIdleState);
                 break;
             case 1:
-                this.playerMovestate.startMove(this.touchX, this.touchY);
+                this.playerMovestate.checkMove(this.touchX, this.touchY);
                 break;
         }
     };

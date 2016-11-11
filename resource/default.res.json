@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,walk03_png,idle_png,walk01_png,walk02_png,floor01_png,floor02_png,floor03_png,floor04_png,idle2_png,player01_idle_left_png,player01_idle_right_png,player01_walk_left_01_png,player01_walk_left_02_png,player01_walk_left_03_png,player01_walk_right_01_png,player01_walk_right_02_png,player01_walk_right_03_png,road_jpg,shelf01_png,shelf02_png,shelf03_png,shelf04_png,table01_png,table02_png,table03_png,table04_png,walk012_png,walk022_png,walk032_png",
+			"keys": "bg_jpg,egret_icon_png,description_json,walk03_png,idle_png,walk01_png,walk02_png,floor01_png,floor02_png,floor03_png,floor04_png,player01_idle_left_png,player01_idle_right_png,player01_walk_left_01_png,player01_walk_left_02_png,player01_walk_left_03_png,player01_walk_right_01_png,player01_walk_right_02_png,player01_walk_right_03_png,road_jpg,shelf01_png,shelf02_png,shelf03_png,shelf04_png,table01_png,table02_png,table03_png,table04_png,player01_walk_up_01_png,player01_walk_up_02_png,player01_walk_up_03_png,player01_idle_up_png,player01_walk_down_01_png,player01_walk_down_02_png,player01_walk_down_03_png,player01_idle_down_png",
 			"name": "preload"
 		}
 	],
@@ -60,11 +60,6 @@
 			"name": "floor04_png",
 			"type": "image",
 			"url": "assets/floor04.png"
-		},
-		{
-			"name": "idle2_png",
-			"type": "image",
-			"url": "assets/idle.png"
 		},
 		{
 			"name": "player01_idle_left_png",
@@ -152,19 +147,44 @@
 			"url": "assets/table04.png"
 		},
 		{
-			"name": "walk012_png",
+			"name": "player01_walk_up_01_png",
 			"type": "image",
-			"url": "assets/walk01.png"
+			"url": "assets/player01_walk_up_01.png"
 		},
 		{
-			"name": "walk022_png",
+			"name": "player01_walk_up_02_png",
 			"type": "image",
-			"url": "assets/walk02.png"
+			"url": "assets/player01_walk_up_02.png"
 		},
 		{
-			"name": "walk032_png",
+			"name": "player01_walk_up_03_png",
 			"type": "image",
-			"url": "assets/walk03.png"
+			"url": "assets/player01_walk_up_03.png"
+		},
+		{
+			"name": "player01_idle_up_png",
+			"type": "image",
+			"url": "assets/player01_idle_up.png"
+		},
+		{
+			"name": "player01_walk_down_01_png",
+			"type": "image",
+			"url": "assets/player01_walk_down_01.png"
+		},
+		{
+			"name": "player01_walk_down_02_png",
+			"type": "image",
+			"url": "assets/player01_walk_down_02.png"
+		},
+		{
+			"name": "player01_walk_down_03_png",
+			"type": "image",
+			"url": "assets/player01_walk_down_03.png"
+		},
+		{
+			"name": "player01_idle_down_png",
+			"type": "image",
+			"url": "assets/player01_idle_down.png"
 		}
 	]
 }
